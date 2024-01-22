@@ -1,0 +1,245 @@
+;           ██████   ██████  ██   ██    ██ ██████   █████  ██████
+;           ██   ██ ██    ██ ██    ██  ██  ██   ██ ██   ██ ██   ██
+;           ██████  ██    ██ ██     ████   ██████  ███████ ██████
+;           ██      ██    ██ ██      ██    ██   ██ ██   ██ ██   ██
+;           ██       ██████  ███████ ██    ██████  ██   ██ ██   ██
+
+[colors]
+background = #15161b
+foreground = #FFFFFF
+foreground-alt= #528BFF
+black = #000000
+red = #E06C75
+green = #98C379
+orange = #D19A66
+blue = #61AEEE
+magenta = #C678DD
+cyan = #56B6C2
+lightgray = #ABB2BF
+darkgray = #5C6370
+white = #FFFFFF
+
+[global/wm]
+margin-top = 0
+margin-bottom = 0
+
+[bar/example]
+override-redirect= true
+height = 35
+width = 100%
+offset-x = 0
+offset-y = 0
+module-margin = 1
+line-size = 1
+radius = 0
+padding= 6
+font-0 = JetBrains Mono:size=10
+font-1 = FontAwesome:style=Solid:size=8
+font-2 = MaterialIcons:size=8
+
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+tray-position = right
+tray-maxsize = 16
+
+modules-left = xwindow
+modules-center =  i3
+modules-right = battery brightnessctl pulseaudio wireless-network clock
+
+scroll-up = i3.next
+scroll-down = i3.prev
+
+[module/xwindow]
+type = internal/xwindow
+
+label = %title%
+label-maxlen = 75
+
+format-foreground = ${colors.white}
+format-background = ${colors.background}
+format-prefix = " "
+format-suffix = " "
+
+format-margin = 1
+
+[module/keyboard]
+type = internal/xkeyboard
+
+format =  <label-layout>
+format-foreground = ${colors.magenta}
+format-label-prefix= " "
+
+
+[module/brightnessctl]
+type = custom/script
+exec = ~/.config/polybar/brightnessctl.sh
+
+scroll-up = exec brightnessctl set +5%
+scroll-down = exec brightnessctl set 5%-
+interval = 0.5
+
+label = %output%
+label-foreground = ${colors.foreground}
+
+[module/pulseaudio]
+type = internal/pulseaudio
+
+format-volume = <ramp-volume> 
+format-volume-background = ${color.background}
+format-volume-foreground = ${color.white}
+format-volume-padding = 0
+
+label-volume = %percentage%
+
+format-muted-prefix = 
+label-muted = " Muted"
+format-muted-background = ${color.background}
+format-muted-foreground = ${color.white}
+format-muted-padding = 1
+
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+ramp-volume-3 = 
+ramp-volume-4 = 
+
+
+[module/clock]
+type = internal/date
+interval = 10
+format-margin = 0
+
+time = "%H:%M"
+date = "%a %d %b"
+
+label =  %time% %date%
+label-foreground = ${colors.white}
+label-background = ${colors.background}
+[module/calendar]
+type = internal/date
+
+interval = 1.0
+
+date = %d/%m/%y
+
+format = %{T1} <label>
+format-foreground = ${colors.orange}
+format-prefix = " "
+
+label = %date%
+
+[module/volume]
+type = internal/pulseaudio 
+;type = internal/volume
+;type = internal/alsa
+ 
+format-volume = <label-volume>
+label-volume = %percentage%%
+ 
+format-muted-foreground = ${colors.white}
+label-muted = MUTED
+ 
+ 
+
+
+[module/battery]
+type = internal/battery
+
+full-at = 98
+
+battery = BAT0
+adapter = AC0
+
+poll-interval = 2
+
+time-format = %H:%M
+
+label-charging = %percentage%%
+label-discharging = %percentage%%
+label-full = 
+
+format-charging = <animation-charging>
+format-charging-foreground = ${colors.white}
+
+format-discharging = <ramp-capacity>
+format-discharging-foreground = ${colors.white}
+
+format-full-foreground = ${colors.white}
+
+format-charging-prefix = " "
+format-discharging-prefix = " "
+format-full-prefix = " "
+
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+animation-charging-framerate = 750
+
+[module/i3]
+type = internal/i3
+format = <label-state> <label-mode>
+
+index-sort = true
+wrapping-scroll = true
+
+label-focused = %index%
+label-focused-foreground = ${colors.red}
+label-focused-background = ${colors.background}
+label-focused-padding = 1
+
+label-unfocused = %index%
+label-unfocused-padding = 1
+
+label-urgent = %index%
+label-urgent-foreground = ${colors.background}
+label-urgent-background = ${colors.red}
+label-urgent-padding = 1
+
+label-visible = %index%
+label-visible-padding = 1
+
+
+[module/wireless-network]
+type = internal/network
+interface = wlan0
+label-connected =  
+label-disconnected = 
+label-disconnected-foreground = #66
+
+format-connected = "<ramp-signal> <label-connected>"
+ramp-signal-0 = 
+ramp-signal-1 = 
+ramp-signal-2 = 
+ramp-signal-3 = 
+ramp-signal-4 = 
+ramp-signal-5 = 
+
+
+[module/wired-network]
+type = internal/network
+interface = enp4s0f2
+
+format-connected-prefix = " "
+format-disconnected-prefix = " "
+
+format-connected = <label-connected>
+
+format-disconnected = <label-disconnected>
+
+label-connected =  %local_ip%
+label-connected-foreground = ${colors.foreground-alt}
+
+label-disconnected =  [not plugged]
+label-disconnected-foreground = ${colors.red}
+
+; vim:ft=dosini
