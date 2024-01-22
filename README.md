@@ -1,2 +1,1 @@
-# dotfiles
-Linux setup with my files
+Dotfiles for private use
